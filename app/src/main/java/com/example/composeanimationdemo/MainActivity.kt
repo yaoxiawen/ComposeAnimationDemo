@@ -3,6 +3,7 @@ package com.example.composeanimationdemo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -17,7 +18,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeAnimationDemoTheme {
-                Demo1()
+                Column {
+                    Demo2()
+                    Demo3()
+                }
             }
         }
     }
@@ -28,6 +32,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     ComposeAnimationDemoTheme {
-        Demo1()
+        Column {
+            Demo2()
+            Demo3()
+        }
     }
 }
