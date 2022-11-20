@@ -1,13 +1,10 @@
 package com.example.composeanimationdemo
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -113,5 +110,73 @@ fun Demo4() {
                     .background(background),
             )
         }
+    }
+}
+
+/**
+ * 多值动画, updateTransition，当状态发生改变时，有多个动画值要一起发生改变
+ * 设置一个Transition，并使用targetState提供的目标对其进行更新。
+ * 当targetState更改时，Transition将朝着新targetState指定的目标值运行其所有子动画
+ * 可以使用Transition动态添加子动画：Transition.animateFloat、animateColor、animateValue等
+ */
+@Composable
+fun Demo5() {
+    val (change, setChange) = remember {
+        mutableStateOf(false)
+    }
+    val transition = updateTransition(targetState = change, label = "多值动画")
+    val offset by transition.animateDp(label = "") { change ->
+        if (change) 50.dp else 0.dp
+    }
+    val background by transition.animateColor(label = "") { change ->
+        if (change) Color.Gray else Color.Blue
+    }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        Text(
+            text = "背景颜色：${background}",
+            modifier = Modifier
+                .size(100.dp)
+                .offset(x = offset)
+                .background(background),
+        )
+    }
+}
+
+/**
+ * 多值动画, updateTransition，当状态发生改变时，有多个动画值要一起发生改变
+ * 弹性效果，transitionSpec
+ */
+@Composable
+fun Demo6() {
+    val (change, setChange) = remember {
+        mutableStateOf(false)
+    }
+    val transition = updateTransition(targetState = change, label = "多值动画")
+    val offset by transition.animateDp(
+        transitionSpec = {
+            //从左往右，左边缘比右边缘移动得慢
+            if (!change isTransitioningTo change) {
+                spring(stiffness = Spring.StiffnessVeryLow)
+            } else {
+                spring(stiffness = Spring.StiffnessMedium)
+            }
+        },
+        label = ""
+    ) { change ->
+        if (change) 50.dp else 0.dp
+    }
+    val background by transition.animateColor(label = "") { change ->
+        if (change) Color.Gray else Color.Blue
+    }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        Text(
+            text = "背景颜色：${background}",
+            modifier = Modifier
+                .size(100.dp)
+                .offset(x = offset)
+                .background(background),
+        )
     }
 }
