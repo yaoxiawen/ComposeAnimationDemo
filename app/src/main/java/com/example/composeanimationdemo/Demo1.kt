@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
@@ -176,6 +177,39 @@ fun Demo6() {
             modifier = Modifier
                 .size(100.dp)
                 .offset(x = offset)
+                .background(background),
+        )
+    }
+}
+
+/**
+ * 重复动画，rememberInfiniteTransition
+ */
+@Composable
+fun Demo7() {
+    val (change, setChange) = remember {
+        mutableStateOf(false)
+    }
+    val infiniteTransition = rememberInfiniteTransition()
+    val alpha by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = 1000
+                1f at 500
+            },
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+    val background = if (change) Color.Gray else Color.Blue
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        Text(
+            text = "背景颜色：${background}",
+            modifier = Modifier
+                .size(100.dp)
+                .alpha(alpha)
                 .background(background),
         )
     }
