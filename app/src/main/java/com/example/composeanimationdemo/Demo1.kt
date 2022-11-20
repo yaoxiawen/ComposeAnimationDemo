@@ -1,12 +1,9 @@
 package com.example.composeanimationdemo
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -94,5 +91,27 @@ fun Demo3() {
             )
         }
         Text(text = "点击改变可见性", modifier = Modifier.clickable { setChange(!change) })
+    }
+}
+
+/**
+ * 内容大小动画, animateContentSize
+ */
+@Composable
+fun Demo4() {
+    val (change, setChange) = remember {
+        mutableStateOf(false)
+    }
+    val background = Color.Gray
+    Column(modifier = Modifier.animateContentSize()) {
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        if (change) {
+            Text(
+                text = "背景颜色：${background}",
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(background),
+            )
+        }
     }
 }

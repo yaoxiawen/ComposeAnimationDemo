@@ -18,10 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeAnimationDemoTheme {
-                Column {
-                    Demo2()
-                    Demo3()
-                }
+                Demo4()
             }
         }
     }
@@ -32,9 +29,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     ComposeAnimationDemoTheme {
-        Column {
-            Demo2()
-            Demo3()
-        }
+        Demo4()
     }
 }
