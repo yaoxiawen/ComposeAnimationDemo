@@ -6,10 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -20,9 +17,7 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun Demo1() {
-    val (change, setChange) = remember {
-        mutableStateOf(false)
-    }
+    var change by remember { mutableStateOf(false) }
     val background by animateColorAsState(if (change) Color.Gray else Color.Blue)
 //    val background = if (change) Color.Gray else Color.Blue
     Column {
@@ -32,7 +27,7 @@ fun Demo1() {
                 .size(100.dp)
                 .background(background),
         )
-        Text(text = "点击变换颜色", modifier = Modifier.clickable { setChange(!change) })
+        Text(text = "点击变换颜色", modifier = Modifier.clickable { change = !change })
     }
 }
 
@@ -41,9 +36,7 @@ fun Demo1() {
  */
 @Composable
 fun Demo2() {
-    val (change, setChange) = remember {
-        mutableStateOf(true)
-    }
+    var change by remember { mutableStateOf(false) }
     val background = Color.Gray
     Column {
         AnimatedVisibility(visible = change) {
@@ -54,7 +47,7 @@ fun Demo2() {
                     .background(background),
             )
         }
-        Text(text = "点击改变可见性", modifier = Modifier.clickable { setChange(!change) })
+        Text(text = "点击改变可见性", modifier = Modifier.clickable { change = !change })
     }
 }
 
@@ -63,9 +56,7 @@ fun Demo2() {
  */
 @Composable
 fun Demo3() {
-    val (change, setChange) = remember {
-        mutableStateOf(true)
-    }
+    var change by remember { mutableStateOf(false) }
     val background = Color.Gray
     Column {
         AnimatedVisibility(
@@ -88,7 +79,7 @@ fun Demo3() {
                     .background(background),
             )
         }
-        Text(text = "点击改变可见性", modifier = Modifier.clickable { setChange(!change) })
+        Text(text = "点击改变可见性", modifier = Modifier.clickable { change = !change })
     }
 }
 
@@ -97,12 +88,10 @@ fun Demo3() {
  */
 @Composable
 fun Demo4() {
-    val (change, setChange) = remember {
-        mutableStateOf(false)
-    }
+    var change by remember { mutableStateOf(false) }
     val background = Color.Gray
     Column(modifier = Modifier.animateContentSize()) {
-        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { change = !change })
         if (change) {
             Text(
                 text = "背景颜色：${background}",
@@ -122,9 +111,7 @@ fun Demo4() {
  */
 @Composable
 fun Demo5() {
-    val (change, setChange) = remember {
-        mutableStateOf(false)
-    }
+    var change by remember { mutableStateOf(false) }
     val transition = updateTransition(targetState = change, label = "多值动画")
     val offset by transition.animateDp(label = "") { change ->
         if (change) 50.dp else 0.dp
@@ -133,7 +120,7 @@ fun Demo5() {
         if (change) Color.Gray else Color.Blue
     }
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { change = !change })
         Text(
             text = "背景颜色：${background}",
             modifier = Modifier
@@ -150,9 +137,7 @@ fun Demo5() {
  */
 @Composable
 fun Demo6() {
-    val (change, setChange) = remember {
-        mutableStateOf(false)
-    }
+    var change by remember { mutableStateOf(false) }
     val transition = updateTransition(targetState = change, label = "多值动画")
     val offset by transition.animateDp(
         transitionSpec = {
@@ -171,7 +156,7 @@ fun Demo6() {
         if (change) Color.Gray else Color.Blue
     }
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { change = !change })
         Text(
             text = "背景颜色：${background}",
             modifier = Modifier
@@ -187,9 +172,7 @@ fun Demo6() {
  */
 @Composable
 fun Demo7() {
-    val (change, setChange) = remember {
-        mutableStateOf(false)
-    }
+    var change by remember { mutableStateOf(false) }
     val infiniteTransition = rememberInfiniteTransition()
     val alpha by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -204,7 +187,7 @@ fun Demo7() {
     )
     val background = if (change) Color.Gray else Color.Blue
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "点击改变内容大小", modifier = Modifier.clickable { setChange(!change) })
+        Text(text = "点击改变内容大小", modifier = Modifier.clickable { change = !change })
         Text(
             text = "背景颜色：${background}",
             modifier = Modifier
