@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeAnimationDemoTheme {
-                Demo7()
+                Demo8()
             }
         }
     }
@@ -29,6 +29,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     ComposeAnimationDemoTheme {
-        Demo7()
+        Demo8()
     }
 }
